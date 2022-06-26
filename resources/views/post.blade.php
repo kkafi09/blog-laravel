@@ -1,7 +1,11 @@
 @extends('layouts.main')
 
 @section('container')
-    <h2>Judul</h2>
-    <h5>Author</h5>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit ab neque suscipit sunt vitae dignissimos impedit nemo odit, labore rerum hic illo magnam, laboriosam, eaque exercitationem accusantium id non voluptatem.j</p>
+    <h2 class="mb-3">{{  $post->title  }}</h2>
+
+    <p>by. Kafi in <a href="/categories/{{ $post->category->name  }}">{{ $post->category->name  }}</a></p>
+
+    {!! $post->body  !!}
+
+    <a href="/posts">Back to Posts</a>
 @endsection

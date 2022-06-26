@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,27 +29,6 @@ Route::get('/about', function() {
     ]);
 });
 
-Route::get('/blog', function() {
-    $blog_posts = [
-        [
-            "title" => "Post Pertama di blogku",
-            "slug" => "post-pertama-di-blogku",
-            "author" => "Kafi",
-            "body" => "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est veniam consequatur amet fugiat blanditiis? Possimus porro, accusamus ipsam at consequuntur iure laudantium impedit, amet corrupti dicta ex totam deserunt numquam quas recusandae odio? Minima ducimus saepe enim laudantium corporis dolorem numquam dolorum officiis neque mollitia delectus, molestiae non magni dignissimos et voluptatem praesentium tempore adipisci, quasi assumenda sequi cumque architecto amet vero! Ea reprehenderit provident laudantium! Ipsam sunt necessitatibus iure exercitationem, a sequi nemo expedita repellat autem perferendis? Dolore, iusto.",
-        ],
-        [
-            "title" => "Post Kedua di blogku",
-            "slug" => "post-kedua-di-blogku",
-            "author" => "Kafi 2",
-            "body" => "Lorem ipsum random misasi dolor, sit amet consectetur adipisicing elit. Est veniam consequatur amet fugiat blanditiis? Possimus porro, accusamus ipsam at consequuntur iure laudantium impedit, amet corrupti dicta ex totam deserunt numquam quas recusandae odio? Minima ducimus saepe enim laudantium corporis dolorem numquam dolorum officiis neque mollitia delectus, molestiae non magni dignissimos et voluptatem praesentium tempore adipisci, quasi assumenda sequi cumque architecto amet vero! Ea reprehenderit provident laudantium! Ipsam sunt necessitatibus iure exercitationem, a sequi nemo expedita repellat autem perferendis? Dolore, iusto.",
-        ],
-    ];
-    return view('posts', [
-        "title" => "Posts",
-        "posts" => $blog_posts
-    ]);
-});
-
-Route::get('posts/{slug}', function($slug){
-    return view('post');
-});
+Route::get('/posts', [PostController::class, "index"]);
+Route::get('/posts/{post:slug}', [PostController::class, "show"]);
+Route::get('/categories/{category:slug}', )
