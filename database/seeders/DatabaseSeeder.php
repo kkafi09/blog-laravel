@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\Post;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,18 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        User::create([
-            "name" => "Muh. Kafanal Kafi",
-            "email" => "afi.firda@gmail.com",
-            "password" => bcrypt("rahasia")
-        ]);
-
-        User::create([
-            "name" => "Budi",
-            "email" => "budi@gmail.com",
-            "password" => bcrypt("rahasia1")
-        ]);
+        User::factory(5)->create();
 
         Category::create([
             "name" => "Web Programming",
@@ -44,31 +33,6 @@ class DatabaseSeeder extends Seeder
             "slug" => "personal",
         ]);
 
-        Post::create([
-            "title" => "Post Pertama",
-            "slug" => "post-pertama",
-            "excerpt" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis quod aliquam harum est? Mollitia",
-            "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis quod aliquam harum est? Mollitia, officia blanditiis consequatur repellendus, explicabo nobis autem, saepe rem velit perferendis consequuntur quam. Molestiae, eligendi pariatur.",
-            "category_id" => 1,
-            "user_id" =>1,
-        ]);
-
-        Post::create([
-            "title" => "Post kedua",
-            "slug" => "post-kedua",
-            "excerpt" => "2 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis quod aliquam harum est? Mollitia",
-            "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis quod aliquam harum est? Mollitia, officia blanditiis consequatur repellendus, explicabo nobis autem, saepe rem velit perferendis consequuntur quam. Molestiae, eligendi pariatur.",
-            "category_id" => 1,
-            "user_id" =>2,
-        ]);
-
-        Post::create([
-            "title" => "Post ketiga",
-            "slug" => "post-ketiga",
-            "excerpt" => "3 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis quod aliquam harum est? Mollitia",
-            "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis quod aliquam harum est? Mollitia, officia blanditiis consequatur repellendus, explicabo nobis autem, saepe rem velit perferendis consequuntur quam. Molestiae, eligendi pariatur.",
-            "category_id" => 2,
-            "user_id" =>1,
-        ]);
+        Post::factory(20)->create();
     }
 }
