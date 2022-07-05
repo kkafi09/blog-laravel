@@ -2,10 +2,9 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
-use App\Models\Category;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
-
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,11 +37,9 @@ Route::get('/posts', [PostController::class, "index"]);
 Route::get('/posts/{post:slug}', [PostController::class, "show"]);
 
 Route::get('/categories', [CategoryController::class, "index"]);
-Route::get('/categories/{category:slug}', [CategoryController::class, "show"]);
 
-Route::get('/authors/{author:username}', function(User $author){
-    return view('posts', [
-        'title' => "Post By author : $author->name",
-        'posts' => $author->post->load('category', 'author')
-    ]);
-});
+Route::get('/login', [LoginController::class, "index"]);
+Route::post('/login', [LoginController::class, "authenticate"]);
+
+Route::get('/register', [RegisterController::class, "index"]);
+Route::post('/register', [RegisterController::class, "store"]);
