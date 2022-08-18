@@ -17,9 +17,9 @@ class DashboardPostController extends Controller
      */
     public function index()
     {
-        $post = Post::where("user_id", auth()->user()->id);
+        $post = Post::where("user_id", auth()->user()->id)->select('slug', 'category_id', 'title')->get();
         return view("dashboard.posts.index", [
-            'posts' => $post->get()
+            'posts' => $post
         ]);
     }
 
@@ -44,16 +44,22 @@ class DashboardPostController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'title' => 'required|max:255',
-            'slug' => 'required|unique:posts,slug',
-            'category_id' => 'required',
+            'title' => 'required|max:255', 'category_id' => 'required',
             'body' => 'required'
         ]);
 
-        $validateData['user_id'] = auth()->user()->id;
-        $validateData['excerpt'] = Str::limit(strip_tags($request->body), 200, '...');
-
+        $validateData['slug'] = $request->slug ?? Str::slug($request->title, '-');
+        $validateData['excerpt'] = Str::limit(strip_tags($request->body), 200);
         Post::create($validateData);
+        // $post = new Post();
+        // $post->title = $validateData['title'];
+        // $post->slug = $validateData['slug'];
+        // $post->body = $validateData['body'];
+        // $post->excerpt = $validateData['excerpt'];
+        // $post->user_id = $validateData['user_id'];
+        // $post->category_id = $validateData['category_id'];
+        // return $post;
+        // $post->save();
 
         return redirect('/dashboard/posts')->with("success", "New post has been added");
     }
@@ -79,7 +85,10 @@ class DashboardPostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('dashboard.posts.edit', [
+            'post' => $post,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -91,7 +100,23 @@ class DashboardPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $rules = [
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'body' => 'required'
+        ];
+
+        if ($request->slug != $post->slug) {
+            $rules['slug']  = 'required|unique:posts';
+        }
+
+        $validateData = $request->validate($rules);
+
+        $validateData['slug'] = $request->slug ?? Str::slug($request->title, '-');
+        $validateData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+        Post::where('id', $post->id)->update($validateData);
+        return redirect('/dashboard/posts')->with("success", "Post has been updated");
     }
 
     /**
@@ -102,7 +127,8 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        Post::destroy($post->id);
+        return redirect('/dashboard/posts')->with("success", "Post has been deleted");
     }
 
     public function checkSlug(Request $request)

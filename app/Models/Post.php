@@ -8,9 +8,9 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Post extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory;
 
-    // protected $fillable = ['title', 'category_id,', 'user_id', 'slug', 'excerpt', 'body'];
+    // protected $fillable = ['title', 'category_id', 'user_id', 'slug', 'excerpt', 'body'];
     protected $guarded = ['id'];
 
     protected $with = ['author', 'category'];
@@ -42,17 +42,17 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getKeyName()
+    public function getRouteKeyName()
     {
         return 'slug';
     }
 
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
+    // public function sluggable(): array
+    // {
+    //     return [
+    //         'slug' => [
+    //             'source' => 'title'
+    //         ]
+    //     ];
+    // }
 }
